@@ -7,8 +7,8 @@
     --unauth-section-bg: #2C2C2E;
     --unauth-text-color: #FFFFFF;
     --unauth-subtext-color: #A3A3A3; /* Apple's subtext gray */
-    --unauth-accent-color: #0A84FF; /* Apple's blue accent */
-    --unauth-button-hover: #0060DF; /* Darker blue for hover */
+    --unauth-accent-color: #31aea2; /* Apple's blue accent */
+    --unauth-button-hover: #036659; /* Darker blue for hover */
     --unauth-slide-caption-bg: rgba(28, 28, 30, 0.8);
   }
   
@@ -94,7 +94,7 @@
     justify-content: center;
     height: 100vh;
     /* Replaced background image with gradient */
-    background: linear-gradient(135deg, #0A84FF, #1C1C1E);
+    background: linear-gradient(135deg, #078158, #1C1C1E);
     position: relative;
     color: var(--unauth-text-color);
   }
@@ -420,7 +420,7 @@
   .unauth-cta {
     text-align: center;
     padding: 80px 20px;
-    background: linear-gradient(135deg, #0A84FF, #1C1C1E);
+    background: linear-gradient(135deg, #05795c, #1C1C1E);
     color: var(--unauth-text-color);
   }
   

@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Import additional Font Awesome icons
-import { faRobot, faDatabase, faMagic, faCode, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPills, faDatabase, faMagic, faCode, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 // Add icons to the library
-library.add(fab, faRobot, faDatabase, faMagic, faCode, faMobileAlt);
+library.add(fab, faPills, faDatabase, faMagic, faCode, faMobileAlt);
 
 const HomePage = () => {
   // State for carousel
@@ -57,16 +57,16 @@ const HomePage = () => {
   ];
 
   const messages = [
-    "Explore more ways to build—whether it's in the mountains, by the beach, or right in your apartment.",
-    'Discover new horizons with AI-powered backend development.',
-    'Unleash your creativity wherever you are.',
+    "Collect Customer Data and make Data Driven Decisions.",
+    'Streamline your Clinic Operations with AI.',
+    'Make your Clinic more efficient and profitable.',
   ];
 
   const episodes = [
     {
-      title: 'Introduction to Backend Development',
-      description: 'Kickstart your journey by understanding the fundamentals of backend development.',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual YouTube video ID
+      title: 'Introduction to Collecting Customer Data',
+      description: 'Accelerate your business by understanding Customer demands and preferences.',
+      videoId: '8HslUzw35mc?si=k8Cv9HNmZFeUJnUj', // Replace with actual YouTube video ID
     },
   ];
 
@@ -97,7 +97,7 @@ const HomePage = () => {
       {/* Navigation Bar */}
       <nav className="unauth-navbar">
         <div className="unauth-logo" onClick={() => handleNavClick('home')}>
-          <FontAwesomeIcon icon="robot" className="unauth-header-icon" /> YourApp
+          <FontAwesomeIcon icon="pills" className="unauth-header-icon" /> ClinicSync
         </div>
         <ul className="unauth-nav-links">
           <li
@@ -137,11 +137,11 @@ const HomePage = () => {
       <header className="unauth-hero-section" id="home">
         <div className="unauth-hero-content">
           <h1>
-            <FontAwesomeIcon icon="robot" className="unauth-header-icon" /> Actually Build Backend Apps Using AI
+            <FontAwesomeIcon icon="pills" className="unauth-header-icon" /> Transform your Clinic and make Data Driven Decisions.
           </h1>
           <p>Leverage the power of AI to streamline your backend development process.</p>
           <Link to="/signup" className="unauth-cta-button">
-            Let's get started ☕
+            Get started ☕
           </Link>
         </div>
       </header>
@@ -165,13 +165,13 @@ const HomePage = () => {
           </div>
           <div className="unauth-feature-item">
             <FontAwesomeIcon icon="code" size="3x" className="unauth-feature-icon" />
-            <h3>Code Generation</h3>
-            <p>Generate high-quality code snippets tailored to your needs.</p>
+            <h3>Data Analytics</h3>
+            <p>Analyze customer data to make informed decisions.</p>
           </div>
           <div className="unauth-feature-item">
             <FontAwesomeIcon icon="mobile-alt" size="3x" className="unauth-feature-icon" />
             <h3>Responsive Design</h3>
-            <p>Create applications that look stunning on any device.</p>
+            <p>Ease of use and accessibility.</p>
           </div>
         </div>
       </section>
@@ -223,7 +223,7 @@ const HomePage = () => {
 
       {/* Testimonials Section */}
       <section className="unauth-testimonials" id="testimonials">
-        <h2>What Developers Are Saying</h2>
+        <h2>What Customers Are Saying</h2>
         <div className="unauth-testimonials-grid">
           <div className="unauth-testimonial-item">
             <p>"This series has been a game-changer for my backend development skills."</p>
@@ -242,7 +242,7 @@ const HomePage = () => {
 
       {/* Call to Action Section */}
       <section className="unauth-cta" id="cta">
-        <h2>Ready to Transform Your Backend Development?</h2>
+        <h2>Ready to Transform Your Clinic?</h2>
         <Link to="/signup" className="unauth-cta-button">
           Sign Up Now
         </Link>
@@ -251,7 +251,7 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="unauth-footer">
         <div className="unauth-footer-content">
-          <p>&copy; {new Date().getFullYear()} YourApp. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ClinicSync. All rights reserved.</p>
           <ul className="unauth-footer-links">
             <li>Privacy Policy</li>
             <li>Terms of Service</li>
