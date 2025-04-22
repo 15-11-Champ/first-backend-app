@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './HomePage.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 // Import Font Awesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,11 +12,13 @@ import { faPills, faDatabase, faMagic, faCode, faMobileAlt } from '@fortawesome/
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
+
 // Add icons to the library
 library.add(fab, faPills, faDatabase, faMagic, faCode, faMobileAlt);
 
 const HomePage = () => {
   // State for carousel
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeNav, setActiveNav] = useState('home');
 
@@ -92,6 +95,10 @@ const HomePage = () => {
     scrollToSection(id);
   };
 
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="unauth-homepage">
       {/* Navigation Bar */}
@@ -126,9 +133,15 @@ const HomePage = () => {
           </li>
           <li
             className={activeNav === 'cta' ? 'active' : ''}
-            onClick={() => handleNavClick('cta')}
+            onClick={() => goToLogin('logins')}
           >
             Get Started
+          </li>
+          <li
+            className={activeNav === 'logins' ? 'active' : ''}
+            onClick={() => goToLogin('logins')}
+          >
+            Login
           </li>
         </ul>
       </nav>
@@ -186,7 +199,7 @@ const HomePage = () => {
 
       {/* Tech Stack Section */}
       <section className="unauth-tech-stack" id="tech-stack">
-        <h2>Our Tech Stack</h2>
+        <h2>Pricing</h2>
         <div className="unauth-tech-stack-icons">
           {slides.map((tech, index) => (
             <div className="unauth-tech-item" key={index}>
