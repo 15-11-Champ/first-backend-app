@@ -1,69 +1,80 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // your firebase setup
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
 
-function CreateAppointmentForm() {
+const CreateAppointmentForm = () => {
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
-  const [patientId, setPatientId] = useState("");
-  const [doctorId, setDoctorId] = useState("");
-  const [date, setDate] = useState("");
+  const [formData, setFormData] = useState({
+    patientId: '',
+    doctorId: '',
+    datetime: ''
+  });
 
   useEffect(() => {
-    // Fetch patients and doctors
     const fetchData = async () => {
-      const patientSnapshot = await getDocs(collection(db, "patients"));
-      setPatients(patientSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const patientsSnap = await getDocs(collection(db, 'patients'));
+      const doctorsSnap = await getDocs(collection(db, 'doctors'));
+      setPatients(patientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setDoctors(doctorsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
 
-      const doctorSnapshot = await getDocs(collection(db, "doctors"));
-      setDoctors(doctorSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const patientsList = patientsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const doctorsList = doctorsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      console.log("Doctors fetched:", doctorsList);
+      console.log("Patients fetched:", patientsList);
     };
-
     fetchData();
   }, []);
 
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await addDoc(collection(db, "appointments"), {
-      patientId,
-      doctorId,
-      date: new Date(date).toISOString(),
-      prescriptionNumber: "",
-      status: "upcoming",
-    });
-
-    alert("Appointment scheduled!");
-    // Optional: clear form
+    try {
+      await addDoc(collection(db, 'appointments'), {
+        ...formData,
+        datetime: Timestamp.fromDate(new Date(formData.datetime)),
+        prescriptionId: null,
+        createdAt: Timestamp.now()
+      });
+      alert('Appointment created successfully!');
+      setFormData({ patientId: '', doctorId: '', datetime: '' });
+    } catch (error) {
+      console.error('Error creating appointment:', error);
+      alert('Failed to create appointment.');
+    }
   };
 
   return (
-    <div>
+    <div className="appointment-form">
       <h2>Schedule Appointment</h2>
       <form onSubmit={handleSubmit}>
         <label>Patient:</label>
-        <select onChange={(e) => setPatientId(e.target.value)} required>
-          <option value="">Select patient</option>
+        <select name="patientId" value={formData.patientId} onChange={handleChange} required>
+          <option value="">Select Patient</option>
           {patients.map(p => (
             <option key={p.id} value={p.id}>{p.name}</option>
           ))}
         </select>
 
         <label>Doctor:</label>
-        <select onChange={(e) => setDoctorId(e.target.value)} required>
-          <option value="">Select doctor</option>
+        <select name="doctorId" value={formData.doctorId} onChange={handleChange} required>
+          <option value="">Select Doctor</option>
           {doctors.map(d => (
-            <option key={d.id} value={d.id}>{d.name}</option>
+            <option key={d.id} value={d.id}>{d.Name}</option>
           ))}
         </select>
 
         <label>Date & Time:</label>
-        <input type="datetime-local" onChange={(e) => setDate(e.target.value)} required />
+        <input type="datetime-local" name="datetime" value={formData.datetime} onChange={handleChange} required />
 
-        <button type="submit">Create Appointment</button>
+        <button type="submit">Create</button>
       </form>
     </div>
   );
-}
+};
 
 export default CreateAppointmentForm;

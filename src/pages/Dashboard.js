@@ -6,6 +6,9 @@ import { db } from '../firebase';
 import { doc, collection, addDoc, getDoc } from 'firebase/firestore';
 import CreateAppointmentForm from "../components/CreateAppointmentForm";
 import MainSection from "../components/MainSection";
+import SelectAppointmentForPrescription from '../components/SelectAppointmentForPrescription';
+import CreatePrescriptionForm from '../components/CreatePrescriptionForm';
+
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -19,6 +22,7 @@ function Dashboard() {
   });
   const [userData, setUserData] = useState(null);
   const [activeSection, setActiveSection] = useState("MainSection");
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
 
   useEffect(() => {
@@ -88,6 +92,10 @@ function Dashboard() {
         case "overview":
         default:
           return <MainSection />;
+        case "prescription":
+          return selectedAppointment 
+    ? <CreatePrescriptionForm appointment={selectedAppointment} onBack={() => setSelectedAppointment(null)} />
+    : <SelectAppointmentForPrescription onSelect={setSelectedAppointment} />;
       }
     };
 
@@ -132,7 +140,7 @@ function Dashboard() {
         {/* Shortcut Buttons */}
         <section className="shortcuts">
           <button className="shortcut-btn" onClick={() => setShowForm(true)}>Add Patient</button>
-          <button className="shortcut-btn">Create Prescription</button>
+          <button className="shortcut-btn" onClick={() => setActiveSection("prescription")}>Create Prescription</button>
           <button className="shortcut-btn" onClick={() => setActiveSection("appointment")}>Create Appointment</button>
           <button className="shortcut-btn">Schedule Follow-up</button>
           <button className="shortcut-btn">Fetch History</button>
@@ -197,8 +205,9 @@ function Dashboard() {
 
         {/* Main Dashboard Section */}
         <section className="main-section">
-        {renderSection()}
+          {renderSection()}
         </section>
+
       </main>
     </div>
   );
