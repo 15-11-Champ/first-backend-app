@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 
 function CreatePrescriptionForm({ appointment, onBack }) {
   const [medicines, setMedicines] = useState([
@@ -15,12 +17,27 @@ function CreatePrescriptionForm({ appointment, onBack }) {
     setMedicines([...medicines, { name: '', potency: '', manufacturer: '' }]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Prescription for:', appointment);
     console.log('Medicines:', medicines);
-    // Save to Firestore logic goes here
-  };
+    try {
+        const docRef = await addDoc(collection(db, 'prescriptions'), {
+          appointmentId: appointment.id,
+          patientId: appointment.patientId,
+          doctorId: appointment.doctorId,
+          medicines: medicines.filter(med => med.name), // basic validation
+          createdAt: serverTimestamp()
+        });
+    
+        console.log('Prescription created with ID:', docRef.id);
+        alert('Prescription saved successfully!');
+        onBack(); // go back to selection
+      } catch (error) {
+        console.error('Error saving prescription:', error);
+        alert('Failed to save prescription');
+      }
+    };
 
   return (
     <div>
