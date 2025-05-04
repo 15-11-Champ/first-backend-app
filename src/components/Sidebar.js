@@ -1,20 +1,13 @@
-import { useState } from 'react';
+import React from 'react';
 
-function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-
+function SidePanel({ onSelect }) {
   return (
-    <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
-      <button className="collapse-btn" onClick={() => setCollapsed(!collapsed)}>☰</button>
-      <nav className="sidebar-nav">
-        <button>Patients</button>
-        <button>Receipts</button>
-        <button>Prescriptions</button>
-        <button>Doctors</button>
-        <button>Appointments</button>
-      </nav>
-    </aside>
+    <div style={{ width: '200px', padding: '1rem', borderRight: '1px solid #ccc' }}>
+      <button onClick={() => onSelect('patients')}>Patients</button>
+      <button onClick={() => onSelect('doctors')}>Doctors</button>
+      <button onClick={() => onSelect('appointments')}>Appointments</button>
+    </div>
   );
 }
 
-export default Sidebar;
+export default SidePanel;
