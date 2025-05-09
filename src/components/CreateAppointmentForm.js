@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
+import './FormStyleAppointment.css';
 
 const CreateAppointmentForm = () => {
   const [patients, setPatients] = useState([]);
@@ -49,7 +50,7 @@ const CreateAppointmentForm = () => {
   };
 
   return (
-    <div className="appointment-form">
+    <div className="form-container">
       <h2>Schedule Appointment</h2>
       <form onSubmit={handleSubmit}>
         <label>Patient:</label>

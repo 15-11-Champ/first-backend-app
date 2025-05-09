@@ -8,7 +8,10 @@ import CreateAppointmentForm from "../components/CreateAppointmentForm";
 import MainSection from "../components/MainSection";
 import SelectAppointmentForPrescription from '../components/SelectAppointmentForPrescription';
 import CreatePrescriptionForm from '../components/CreatePrescriptionForm';
-
+import AddPatientForm from '../components/AddPatientForm';
+import PatientList from '../components/PatientList';
+import DoctorList from '../components/DoctorList';
+import AppointmentList from '../components/AppointmentList';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -87,8 +90,11 @@ function Dashboard() {
 
     const renderSection = () => {
       switch (activeSection) {
-        case "appointment":
-          return <CreateAppointmentForm />;
+        case "appointment": return <CreateAppointmentForm />;
+        case 'patients': return <PatientList />;
+        case 'doctors': return <DoctorList />;
+        case 'appointments': return <AppointmentList />;
+        case "addPatient": return <AddPatientForm />;
         case "overview":
         default:
           return <MainSection />;
@@ -127,11 +133,11 @@ function Dashboard() {
       <aside className="sidebar">
         <button className="collapse-btn">☰</button>
         <nav className="sidebar-nav">
-          <button>Patients</button>
+          <button onClick={() => setActiveSection('patients')}>Patients</button>
           <button>Receipts</button>
           <button>Prescriptions</button>
-          <button>Doctors</button>
-          <button>Appointments</button>
+          <button onClick={() => setActiveSection('doctors')}>Doctors</button>
+          <button onClick={() => setActiveSection('appointments')}>Appointments</button>
         </nav>
       </aside>
 
@@ -139,7 +145,7 @@ function Dashboard() {
       <main className="main-content">
         {/* Shortcut Buttons */}
         <section className="shortcuts">
-          <button className="shortcut-btn" onClick={() => setShowForm(true)}>Add Patient</button>
+          <button className="shortcut-btn" onClick={() => setActiveSection("addPatient")}>Add Patient</button>
           <button className="shortcut-btn" onClick={() => setActiveSection("prescription")}>Create Prescription</button>
           <button className="shortcut-btn" onClick={() => setActiveSection("appointment")}>Create Appointment</button>
           <button className="shortcut-btn">Schedule Follow-up</button>
