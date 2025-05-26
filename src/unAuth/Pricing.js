@@ -16,11 +16,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 // Add icons to the library
 library.add(fab, faPills, faDatabase, faMagic, faCode, faMobileAlt);
 
-const HomePage = () => {
+const Pricing = () => {
   // State for carousel
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeNav, setActiveNav] = useState('home');
+  const [activeNav, setActiveNav] = useState('pricing');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -99,11 +99,6 @@ const HomePage = () => {
     navigate('/login');
   };
 
-  const goToPricing = () => {
-    navigate('/pricingpage');
-  };
-
-
   return (
     <div className="unauth-homepage">
       {/* Navigation Bar */}
@@ -126,7 +121,7 @@ const HomePage = () => {
           </li>
           <li
             className={activeNav === 'pricing' ? 'active' : ''}
-            onClick={() => goToPricing('pricing')}
+            onClick={() => handleNavClick('pricing')}
           >
             Pricing
           </li>
@@ -138,7 +133,7 @@ const HomePage = () => {
           </li>
           <li
             className={activeNav === 'cta' ? 'active' : ''}
-            onClick={() => goToPricing('logins')}
+            onClick={() => goToLogin('logins')}
           >
             Get Started
           </li>
@@ -172,89 +167,33 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="unauth-features" id="features">
-        <h2>Features</h2>
-        <div className="unauth-features-grid">
-          <div className="unauth-feature-item">
-            <FontAwesomeIcon icon="magic" size="3x" className="unauth-feature-icon" />
-            <h3>AI Automation</h3>
-            <p>Automate repetitive tasks and focus on what matters most.</p>
-          </div>
-          <div className="unauth-feature-item">
-            <FontAwesomeIcon icon="code" size="3x" className="unauth-feature-icon" />
-            <h3>Data Analytics</h3>
-            <p>Analyze customer data to make informed decisions.</p>
-          </div>
-          <div className="unauth-feature-item">
-            <FontAwesomeIcon icon="mobile-alt" size="3x" className="unauth-feature-icon" />
-            <h3>Responsive Design</h3>
-            <p>Ease of use and accessibility.</p>
-          </div>
-        </div>
-      </section>
+      {/* Prices Section */}
+            <section className="unauth-features" id="features">
+              <h2>Features</h2>
+              <div className="unauth-features-grid">
+                <div className="unauth-feature-item">
+                  <FontAwesomeIcon icon="magic" size="3x" className="unauth-feature-icon" />
+                  <h3>AT Automation</h3>
+                  <p>Automate repetitive tasks and focus on what matters most.</p>
+                </div>
+                <div className="unauth-feature-item">
+                  <FontAwesomeIcon icon="code" size="3x" className="unauth-feature-icon" />
+                  <h3>Data Analytics</h3>
+                  <p>Analyze customer data to make informed decisions.</p>
+                </div>
+                <div className="unauth-feature-item">
+                  <FontAwesomeIcon icon="mobile-alt" size="3x" className="unauth-feature-icon" />
+                  <h3>Responsive Design</h3>
+                  <p>Ease of use and accessibility.</p>
+                </div>
+              </div>
+            </section>
 
       {/* Parallax Section */}
       <section className="unauth-parallax">
         <div className="unauth-parallax-content">
           <h2>Seamless Integration</h2>
           <p>Integrate with your favorite tools and platforms effortlessly.</p>
-        </div>
-      </section>
-
-      {/* Tech Stack Section */}
-      <section className="unauth-tech-stack" id="tech-stack">
-        <h2>Pricing</h2>
-        <div className="unauth-tech-stack-icons">
-          {slides.map((tech, index) => (
-            <div className="unauth-tech-item" key={index}>
-              <FontAwesomeIcon icon={tech.icon} size="4x" className="unauth-tech-icon" />
-              <p>{tech.title}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Episodes Section */}
-      <section className="unauth-episodes" id="episodes">
-        <h2>Episodes</h2>
-        <div className="unauth-episodes-grid">
-          {episodes.map((episode, index) => (
-            <div className="unauth-episode-item" key={index}>
-              <h3>{episode.title}</h3>
-              <p>{episode.description}</p>
-              <div className="unauth-video-container">
-                <iframe
-                  width="100%"
-                  height="200"
-                  src={`https://www.youtube.com/embed/${episode.videoId}`}
-                  title={episode.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="unauth-testimonials" id="testimonials">
-        <h2>What Customers Are Saying</h2>
-        <div className="unauth-testimonials-grid">
-          <div className="unauth-testimonial-item">
-            <p>"This series has been a game-changer for my backend development skills."</p>
-            <h4>- Alex Johnson</h4>
-          </div>
-          <div className="unauth-testimonial-item">
-            <p>"The step-by-step tutorials make complex concepts easy to grasp."</p>
-            <h4>- Maria Gomez</h4>
-          </div>
-          <div className="unauth-testimonial-item">
-            <p>"I love how the series integrates AI tools to streamline the development process."</p>
-            <h4>- Liam Smith</h4>
-          </div>
         </div>
       </section>
 
@@ -281,4 +220,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Pricing;

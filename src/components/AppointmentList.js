@@ -1,4 +1,4 @@
-/*import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -23,8 +23,8 @@ const AppointmentList = () => {
           return {
             id: docSnap.id,
             datetime: data.datetime?.toDate()?.toLocaleString() || '',
-            patientName: patientDoc.exists() ? patientDoc.data().name : 'Unknown',
-            doctorName: doctorDoc.exists() ? doctorDoc.data().Name : 'Unknown',
+            name: patientDoc.exists() ? patientDoc.data().name : 'Unknown',
+            name: doctorDoc.exists() ? doctorDoc.data().Name : 'Unknown',
           };
         })
       );
@@ -69,4 +69,3 @@ const AppointmentList = () => {
 };
 
 export default AppointmentList;
-*/

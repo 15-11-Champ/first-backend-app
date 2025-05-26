@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import './FormStylePatient.css'
+import './FormStylePatient.css';
 
 const AddPatientForm = () => {
   const [formData, setFormData] = useState({
@@ -9,8 +9,7 @@ const AddPatientForm = () => {
     age: '',
     gender: '',
     email: '',
-    phone: '',
-    address: ''
+    phone: ''
   });
 
   const handleChange = (e) => {
@@ -22,13 +21,6 @@ const AddPatientForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate required fields
-    if (!formData.name || !formData.gender || !formData.phone) {
-      alert("Please fill in required fields: Full Name, Gender, and Phone Number.");
-      return;
-    }
-
     try {
       await addDoc(collection(db, 'patients'), {
         ...formData,
@@ -40,8 +32,7 @@ const AddPatientForm = () => {
         age: '',
         gender: '',
         email: '',
-        phone: '',
-        address: ''
+        phone: ''
       });
     } catch (error) {
       console.error('Error adding patient:', error);
@@ -50,14 +41,14 @@ const AddPatientForm = () => {
   };
 
   return (
-    <div className="patient-form">
-      <h2>Add New Patient</h2>
+    <div className="form-container">
+      <h2>Add Patient</h2>
       <form onSubmit={handleSubmit}>
-        <label>Full Name:</label>
+        <label>Name:</label>
         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-        <label>Age (optional):</label>
-        <input type="number" name="age" value={formData.age} onChange={handleChange} />
+        <label>Age:</label>
+        <input type="number" name="age" value={formData.age} onChange={handleChange} required />
 
         <label>Gender:</label>
         <select name="gender" value={formData.gender} onChange={handleChange} required>
@@ -67,14 +58,11 @@ const AddPatientForm = () => {
           <option value="Other">Other</option>
         </select>
 
-        <label>Email (optional):</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} />
+        <label>Email:</label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
 
-        <label>Phone Number:</label>
+        <label>Phone:</label>
         <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-
-        <label>Address (optional):</label>
-        <input type="text" name="address" value={formData.address} onChange={handleChange} />
 
         <button type="submit">Add Patient</button>
       </form>

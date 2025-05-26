@@ -37,7 +37,7 @@ const DoctorList = () => {
         data={filtered}
         renderRow={(d) => (
             <>
-              <div dangerouslySetInnerHTML={{ __html: highlightMatch(d.Name, search) }} />
+              <div dangerouslySetInnerHTML={{ __html: highlightMatch(d.name, search) }} />
               <div dangerouslySetInnerHTML={{ __html: highlightMatch(d.phone || '-', search) }} />
               <div dangerouslySetInnerHTML={{ __html: highlightMatch(d.email || '-', search) }} />
               <div dangerouslySetInnerHTML={{ __html: highlightMatch(d.specialization || '-', search) }} />
