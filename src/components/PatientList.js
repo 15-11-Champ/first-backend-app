@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import StyledTable from './StyledTable'; // adjust the path if needed
 import { highlightMatch } from '../utils/highlightMatch'; // adjust path as needed
+import { useTenant } from "../context/TenantContext";
 
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState('');
+  const { tenantId, loading } = useTenant();
 
   useEffect(() => {
+    if (loading || !tenantId) return;
+
     const fetchPatients = async () => {
-      const snap = await getDocs(collection(db, 'patients'));
+      const q = query(collection(db, "patients"), where("tenantId", "==", tenantId));
+      const snap = await getDocs(q);
       setPatients(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     };
     fetchPatients();
-  }, []);
+  }, [tenantId, loading]);
 
   const filtered = patients.filter(p =>
     (p.name?.toLowerCase().includes(search.toLowerCase()) ||

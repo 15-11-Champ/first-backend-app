@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import './FormStylePatient.css';
+import { useTenant } from '../context/TenantContext';
 
 const AddPatientForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const AddPatientForm = () => {
     email: '',
     phone: ''
   });
+  const { tenantId, loading } = useTenant();
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -32,7 +34,8 @@ const AddPatientForm = () => {
         age: '',
         gender: '',
         email: '',
-        phone: ''
+        phone: '',
+        tenantId
       });
     } catch (error) {
       console.error('Error adding patient:', error);
@@ -59,7 +62,7 @@ const AddPatientForm = () => {
         </select>
 
         <label>Email:</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        <input type="email" name="email" value={formData.email} onChange={handleChange} />
 
         <label>Phone:</label>
         <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />

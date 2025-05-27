@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import { auth } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -12,8 +13,10 @@ import AddPatientForm from '../components/AddPatientForm';
 import PatientList from '../components/PatientList';
 import DoctorList from '../components/DoctorList';
 import AppointmentList from '../components/AppointmentList';
+import { useTenant } from '../context/TenantContext';
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [patientData, setPatientData] = useState({
@@ -26,6 +29,7 @@ function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [activeSection, setActiveSection] = useState("MainSection");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const { tenantId, loading, setTenantId, setRole } = useTenant();
 
 
   useEffect(() => {
@@ -54,7 +58,9 @@ function Dashboard() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      window.location.href = '/login'; // redirect to login
+      setTenantId(null);
+      setRole(null);
+      navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -104,6 +110,7 @@ function Dashboard() {
     : <SelectAppointmentForPrescription onSelect={setSelectedAppointment} />;
       }
     };
+    
 
   return (
     <div className="dashboard-container">
@@ -119,8 +126,7 @@ function Dashboard() {
           {userData && (
     <>
       <div className="user-role">
-        <span>Role: {userData.Role}</span><br />
-        <span>Designation: {userData.Designation}</span>
+        <span>Role: {userData.role}</span><br />
       </div>
     </>
   )}
