@@ -10,14 +10,16 @@ import MainSection from "../components/MainSection";
 import SelectAppointmentForPrescription from '../components/SelectAppointmentForPrescription';
 import CreatePrescriptionForm from '../components/CreatePrescriptionForm';
 import AddPatientForm from '../components/AddPatientForm';
+import AddUserForm from '../components/AddUser';
 import PatientList from '../components/PatientList';
 import DoctorList from '../components/DoctorList';
 import AppointmentList from '../components/AppointmentList';
+import UsersList from '../components/TenantUsers';
 import { useTenant } from '../context/TenantContext';
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser, setStore] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [patientData, setPatientData] = useState({
     name: '',
@@ -50,8 +52,7 @@ function Dashboard() {
           console.error("Error fetching user data: ", error);
         }
       }
-    });
-  
+    })
     return () => unsubscribe(); // Cleanup on
   }, []);
 
@@ -101,6 +102,8 @@ function Dashboard() {
         case 'doctors': return <DoctorList />;
         case 'appointments': return <AppointmentList />;
         case "addPatient": return <AddPatientForm />;
+        case 'AddUserForm': return <AddUserForm/>;
+        case 'UsersList': return <UsersList />;
         case "overview":
         default:
           return <MainSection />;
@@ -120,16 +123,12 @@ function Dashboard() {
           <h1>Dashboard</h1>
         </div>
         <div className="header-right">
-          <span className="user-info">
-            {user ? `Hello, ${user.displayName || user.email}` : 'Loading...'}
+          <span>
+            {}
           </span>
-          {userData && (
-    <>
-      <div className="user-role">
-        <span>Role: {userData.role}</span><br />
-      </div>
-    </>
-  )}
+          <span className="user-info">
+            {user ? `Hello, ${user.Name || user.email}` : 'Loading...'}
+          </span>
           <button className="header-btn">User Info</button>
           <button className="header-btn logout" onClick={handleLogout}>Logout</button>
         </div>
@@ -144,6 +143,7 @@ function Dashboard() {
           <button>Prescriptions</button>
           <button onClick={() => setActiveSection('doctors')}>Doctors</button>
           <button onClick={() => setActiveSection('appointments')}>Appointments</button>
+          <button onClick={() => setActiveSection('UsersList')}>Users</button>
         </nav>
       </aside>
 
@@ -154,7 +154,7 @@ function Dashboard() {
           <button className="shortcut-btn" onClick={() => setActiveSection("addPatient")}>Add Patient</button>
           <button className="shortcut-btn" onClick={() => setActiveSection("prescription")}>Create Prescription</button>
           <button className="shortcut-btn" onClick={() => setActiveSection("appointment")}>Create Appointment</button>
-          <button className="shortcut-btn">Schedule Follow-up</button>
+          <button className="shortcut-btn" onClick={() => setActiveSection("AddUserForm")}>Add User</button>
           <button className="shortcut-btn">Fetch History</button>
         </section>
 

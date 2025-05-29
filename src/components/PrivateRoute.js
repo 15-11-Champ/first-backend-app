@@ -2,21 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
+import { useTenant } from '../context/TenantContext';
 
 function PrivateRoute({ children }) {
-  const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
   const [user, setUser] = useState(null);
+  const { tenantId, role } = useTenant(); // 👈 Grab from context
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
+      setAuthChecked(true);
     });
 
     return () => unsubscribe();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  // Wait until Firebase Auth AND TenantContext are both ready
+  if (!authChecked || !tenantId || !role) {
+    return <p>Loading...</p>;
+  }
 
   return user ? children : <Navigate to="/login" />;
 }

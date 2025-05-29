@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import { useTenant, TenantProvider } from './context/TenantContext'; // ✅ correct casing
 import HomePage from './unAuth/HomePage';
@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import Pricing from './unAuth/Pricing';
 import PricingPage from './unAuth/PricingPage';
+import SignUp from './unAuth/SignUp';
 
 
 function App() {
@@ -19,8 +20,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/pricingpage" element={<PricingPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          
           <Route 
-            path="/pages/dashboard" 
+            path="/dashboard" 
             element={
               <PrivateRoute>
                 <Dashboard />

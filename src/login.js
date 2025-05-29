@@ -1,72 +1,75 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import './login.css';
 import { auth, db } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { useTenant, TenantProvider, setTenantId } from './context/TenantContext'; // ✅ correct casing
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { useTenant } from './context/TenantContext';
 
-function Login() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login = () => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-  const { setTenantId, setRole } = useTenant(); // ⬅️ Use context
+  const navigate = useNavigate();
+  const { setTenantId, setRole } = useTenant(); // 🔥 useTenant hook from context
 
-  const handleLogin = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const uid = userCredential.user.uid;
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
 
-      // Fetch corresponding Firestore user document
-      const userDocRef = doc(db, 'users', uid); // ⬅️ assumes UID is used as document ID
-      const userDocSnap = await getDoc(userDocRef);
+      const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+      const querySnapshot = await getDocs(q);
 
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        setTenantId(userData.tenantId);
-        setRole(userData.role);
-
-        navigate('/pages/dashboard');
-      } else {
-        setError('User profile not found in database.');
+      if (querySnapshot.empty) {
+        throw new Error('User data not found.');
       }
 
+      const userData = querySnapshot.docs[0].data();
+
+      // Save tenantId and role to context
+      setTenantId(userData.tenantId);
+      setRole(userData.role);
+
+      navigate('/dashboard');
     } catch (err) {
-      console.error(err);
-      setError('Invalid credentials');
+      console.error('Login error:', err);
+      setError('Login failed: ' + err.message);
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', paddingTop: '100px' , paddingBottom: '50px' , color: 'white' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div style={{ marginTop:'3rem' , marginBottom: '1rem' }}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px' }}
-          />
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px' }}
-          />
-        </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" style={{ padding: '8px 16px' }}>
-          Login
-        </button>
+    <div className="login-container">
+      <h2 className="login-title">Clinic Login</h2>
+      <form onSubmit={handleSubmit} className="login-form">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        {error && <p className="error">{error}</p>}
+        <button type="submit" className="login-button">Login</button>
       </form>
     </div>
   );

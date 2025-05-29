@@ -1,7 +1,14 @@
 .pricing-container {
+  height: 100vh;
+  width: 100vw;
   max-width: 1920px;
+  max-height: 1080px;
   margin: auto;
+  margin-bottom: 0;
   padding: 40px ;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
   text-align: center;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #078158, #1C1C1E);
@@ -24,6 +31,7 @@
   font-size: 1.3cap;
   color: #909090;
   text-align: left;
+  flex-grow: 1;
 }
 
 .pricing-cards {
@@ -56,6 +64,7 @@
   font-size: 1.8rem;
   margin: 15px 0;
   color: #007BFF;
+  margin-bottom: 2rem;
 }
 
 .card ul {
@@ -100,4 +109,52 @@
   padding: 5px 10px;
   font-size: 0.75rem;
   border-radius: 4px;
+}
+
+.cta-text {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+
+}
+
+/* Footer */
+.unauth-footer {
+  background-color: #1C1C1E;
+  padding-bottom: 2.3rem;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 0;
+  width: 100vw;
+}
+
+.unauth-footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unauth-footer-content p {
+  margin-bottom: 20px;
+  color: var(--unauth-subtext-color);
+}
+
+.unauth-footer-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.unauth-footer-links li {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.unauth-footer-links li:hover {
+  color: var(--unauth-accent-color);
+}
+
+.ul-and-cta-btn {
+  align-items: end;
 }

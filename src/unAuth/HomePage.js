@@ -103,6 +103,9 @@ const HomePage = () => {
     navigate('/pricingpage');
   };
 
+  const goToSignUp = () => {
+    navigate('/signup');
+  };
 
   return (
     <div className="unauth-homepage">
@@ -157,9 +160,9 @@ const HomePage = () => {
           <h1>
             <FontAwesomeIcon icon="pills" className="unauth-header-icon" /> Transform your Clinic and make Data Driven Decisions.
           </h1>
-          <p>Leverage the power of AI to streamline your backend development process.</p>
+          <p>Leverage the power of softwares to gather intelligent data and GROW your Clinic</p>
           <Link to="/signup" className="unauth-cta-button">
-            Get started ☕
+            Get started 
           </Link>
         </div>
       </header>

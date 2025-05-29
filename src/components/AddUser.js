@@ -4,11 +4,10 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import './FormStylePatient.css';
 import { useTenant } from '../context/TenantContext';
 
-const AddPatientForm = () => {
+const AddUserForm = () => {
   const [formData, setFormData] = useState({
     name: '',
-    age: '',
-    gender: '',
+    role: '',
     email: '',
     phone: ''
   });
@@ -24,41 +23,37 @@ const AddPatientForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, 'patients'), {
+      await addDoc(collection(db, 'users'), {
         ...formData,
         createdAt: Timestamp.now(),
         tenantId
       });
-      alert('Patient added successfully!');
+      alert('User added successfully!');
       setFormData({
         name: '',
-        age: '',
-        gender: '',
+        role: '',
         email: '',
         phone: '',
         tenantId
       });
     } catch (error) {
-      console.error('Error adding patient:', error);
-      alert('Failed to add patient.');
+      console.error('Error adding user:', error);
+      alert('Failed to add User.');
     }
   };
 
   return (
     <div className="form-container">
-      <h2>Add Patient</h2>
+      <h2>Add User</h2>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-        <label>Age:</label>
-        <input type="number" name="age" value={formData.age} onChange={handleChange} required />
-
-        <label>Gender:</label>
-        <select name="gender" value={formData.gender} onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
+        <label>Role:</label>
+        <select name="role" value={formData.role} onChange={handleChange} required>
+          <option value="">Select Role</option>
+          <option value="Receptionist">Receptionist</option>
+          <option value="Doctor">Doctor</option>
           <option value="Other">Other</option>
         </select>
 
@@ -68,10 +63,10 @@ const AddPatientForm = () => {
         <label>Phone:</label>
         <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
 
-        <button type="submit">Add Patient</button>
+        <button type="submit">Add User</button>
       </form>
     </div>
   );
 };
 
-export default AddPatientForm;
+export default AddUserForm;
